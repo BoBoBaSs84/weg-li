@@ -22,6 +22,17 @@ describe AnalyzerJob do
       }.by(3)
     end
 
+    it "should assign the blueprint" do
+      job = AnalyzerJob.new
+      annotator = instance_double(GeminiAnnotator, annotate_object: { registrations: ["registration"], brands: ["brand"], colors: ["color"] })
+      allow(job).to receive(:gemini_annotator).and_return(annotator)
+
+      blueprint = Fabricate(:blueprint, user: notice.user)
+      notice.update!(blueprint:)
+      job.perform(notice)
+      expect(notice.note).to eq(blueprint.note)
+    end
+
     it "should continue if there is a timeout" do
       job = AnalyzerJob.new
       annotator = instance_double(GeminiAnnotator)

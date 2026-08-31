@@ -78,7 +78,25 @@ describe "bulk_uploads", type: :request do
       expect(response).to be_a_redirect
     end
 
-    it "updates the notice with photos" do
+    it "assigns a blueprint notices" do
+      blueprint = Fabricate(:blueprint, user:)
+      params = {
+        blueprint_id: blueprint.id,
+        bulk_upload: {
+          photos: [bulk_upload.photos.first.id],
+        },
+      }
+      expect do
+        expect do
+          patch bulk_upload_path(bulk_upload), params:
+        end.to change { user.notices.count }.by(1)
+      end.to have_enqueued_job(AnalyzerJob)
+
+      expect(user.notices.last.blueprint).to eq(blueprint)
+      expect(response).to be_a_redirect
+    end
+
+    it "updates the resource with photos" do
       params = {
         button: "upload",
         bulk_upload: { photos: [file] },

@@ -40,7 +40,7 @@
             | neue Meldung anlegen
         .well
           p
-            = form.select :blueprint_id, options_from_collection_for_select(current_user.blueprints, :id, :name, params[:blueprint_id]), { include_blank: 'Keine Vorlage' }, class: "form-control"
+            = select_tag :blueprint_id, options_from_collection_for_select(current_user.blueprints, :id, :name, params[:blueprint_id]), { include_blank: 'Keine Vorlage', class: "form-control" }
             .small Jetzt #{link_to('Vorlage anlegen', blueprints_path)} und auf neue Meldungen verwenden.
           p
             = link_to url_for(params.to_unsafe_hash), class: "btn btn-sm btn-default btn-block"
