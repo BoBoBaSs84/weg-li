@@ -10,17 +10,7 @@ class Notice < ApplicationRecord
   extend TimeSplitter::Accessors
   split_accessor :start_date, :end_date
 
-  include Bitfields
-  bitfield :flags,
-           1 => :vehicle_empty,
-           2 => :hazard_lights,
-           4 => :expired_tuv,
-           8 => :expired_eco,
-           16 => :over_2_8_tons
-
-  def self.details
-    bitfields[:flags].keys
-  end
+  include Details
 
   acts_as_api
 
@@ -65,6 +55,7 @@ class Notice < ApplicationRecord
   belongs_to :branddd, class_name: "Brand", optional: true, foreign_key: :brand, primary_key: :name
   belongs_to :district, optional: true, foreign_key: :zip, primary_key: :zip
   belongs_to :bulk_upload, optional: true
+  belongs_to :blueprint, optional: true
   has_many_attached :photos
   has_many :replies, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :data_sets, -> { order(created_at: :desc) }, dependent: :destroy, as: :setable
@@ -211,6 +202,13 @@ class Notice < ApplicationRecord
     save_incomplete!
 
     AnalyzerJob.set(wait: 0.5.seconds).perform_later(self)
+  end
+
+  def apply_blueprint
+    return unless blueprint.present?
+    self.flags = blueprint.flags if blueprint.flags.present?
+    self.tbnr = blueprint.tbnr if blueprint.tbnr.present?
+    self.note = blueprint.note if blueprint.note.present?
   end
 
   def owi21_args

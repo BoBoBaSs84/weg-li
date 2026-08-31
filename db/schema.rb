@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_25_122755) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_31_065929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "postgis"
@@ -60,6 +60,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_122755) do
     t.datetime "updated_at", precision: nil
     t.integer "user_id"
     t.index ["user_id"], name: "index_authorizations_on_user_id"
+  end
+
+  create_table "blueprints", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "flags"
+    t.string "name", null: false
+    t.string "note"
+    t.string "tbnr"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_blueprints_on_user_id"
   end
 
   create_table "brands", force: :cascade do |t|
@@ -184,6 +195,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_122755) do
 
   create_table "notices", force: :cascade do |t|
     t.boolean "archived", default: false, null: false
+    t.bigint "blueprint_id"
     t.string "brand"
     t.integer "bulk_upload_id"
     t.string "city"
@@ -213,6 +225,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_122755) do
     t.integer "user_id"
     t.string "zip"
     t.index ["archived"], name: "index_notices_on_archived"
+    t.index ["blueprint_id"], name: "index_notices_on_blueprint_id"
     t.index ["bulk_upload_id"], name: "index_notices_on_bulk_upload_id"
     t.index ["created_at"], name: "index_notices_on_created_at"
     t.index ["district_id"], name: "index_notices_on_district_id"
@@ -320,7 +333,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_25_122755) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "blueprints", "users"
   add_foreign_key "exports", "users"
+  add_foreign_key "notices", "blueprints"
 
   create_view "homepages", materialized: true, sql_definition: <<-SQL
       SELECT ( SELECT count(*) AS count

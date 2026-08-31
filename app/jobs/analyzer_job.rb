@@ -12,8 +12,9 @@ class AnalyzerJob < ApplicationJob
   discard_on Encoding::UndefinedConversionError
   discard_on ActiveRecord::RecordInvalid
 
-  def perform(notice)
+  def perform(notice, blueprint = nil)
     @notice = notice
+    @blueprint = blueprint
     step :handle_exif
     step :handle_gemini
     step :finalize
@@ -95,6 +96,7 @@ class AnalyzerJob < ApplicationJob
 
   def finalize
     @notice.status = :open
+    @notice.apply_blueprint
     @notice.save_incomplete!
   end
 
