@@ -5,8 +5,6 @@
     .dropdown
       = render('snippet_actions', snippet: @snippet, button_text: true)
   .panel-body
-    dl.dl-horizontal
-      h3
-        = @snippet.name
-      .well.well-sm= simple_format(@snippet.content)
-      .small.text-muted Erstellt am #{l(@snippet.created_at, format: :short)}, zuletzt aktualisiert am #{l(@snippet.updated_at, format: :short)}
+    h3= @snippet.name
+    .well.well-sm= simple_format(@snippet.content)
+    .small.text-muted Erstellt am #{l(@snippet.created_at, format: :short)}, zuletzt aktualisiert am #{l(@snippet.updated_at, format: :short)}

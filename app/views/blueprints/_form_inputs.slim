@@ -1,0 +1,23 @@
+.row
+  .col-lg-6
+    .form-group
+      = form.label :name, class: "control-label control-label-required"
+      = form.text_field :name, class: "form-control", required: true, placeholder: 'z.B. Gehwegparker'
+  .col-lg-6
+    .form-group
+      = form.label :tbnr, class: "control-label"
+      = form.select :tbnr, [], { include_blank: 'Verstoß Auswählen' }, { class: "form-control", required: true, data: {'select2-disabled' => true} }
+      = render('notices/charge_select', selected_tbnr: blueprint.tbnr, notice_tbnr: "blueprint_tbnr")
+.row
+  .col-lg-8
+    .form-group
+      = form.label :note, class: "control-label"
+      = form.text_area :note, placeholder: 'z.B. konkrete Behinderung / Gefährdung beschreiben', class: "form-control"
+  .col-lg-4
+    .form-group
+      label.control-label Details
+      - Blueprint.details.each do |flag|
+        .checkbox
+          label
+            = form.check_box flag
+            span= t(flag, scope: "activerecord.attributes.blueprint.flags")

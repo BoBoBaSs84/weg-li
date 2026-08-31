@@ -31,8 +31,9 @@ class User < ApplicationRecord
   has_many :exports, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :notices, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :replies, -> { order(created_at: :desc) }, through: :notices
-  has_many :snippets, -> { order(:priority, [{ created_at: :desc }]) }
-  has_many :authorizations, dependent: :destroy
+  has_many :snippets, -> { order(:priority, [{ created_at: :desc }]) }, dependent: :destroy
+  has_many :blueprints, -> { order(created_at: :desc) }, dependent: :destroy
+  has_many :authorizations, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :photos_attachments, through: :notices
 
   has_one_attached :signature

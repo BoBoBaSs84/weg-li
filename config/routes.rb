@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resources :bulk_uploads
     resources :replies
     resources :snippets
+    resources :blueprints
     resources :signs
     resources :plates
     resources :charges
@@ -56,6 +57,7 @@ Rails.application.routes.draw do
 
   resources :replies
   resources :snippets
+  resources :blueprints
   resources :brands, except: [:destroy]
 
   resources :bulk_uploads do

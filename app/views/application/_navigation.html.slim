@@ -80,9 +80,13 @@
                     span.glyphicon.glyphicon-globe>
                     span.margin-left-small= t('navigation.view_public_profile')
               li
+                = link_to blueprints_path do
+                  span.glyphicon.glyphicon-tasks>
+                  span.margin-left-small Vorlagen verwalten
+              li
                 = link_to snippets_path do
                   span.glyphicon.glyphicon-pencil>
-                  span.margin-left-small Vorlagen verwalten
+                  span.margin-left-small Hinweise verwalten
               li
                 = link_to user_exports_path do
                   span.glyphicon.glyphicon-compressed>

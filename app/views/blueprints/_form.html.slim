@@ -1,0 +1,10 @@
+= form_errors(blueprint)
+
+= form_for blueprint do |form|
+  .well
+    = render('form_inputs', form:, blueprint:)
+  .row
+    .col-lg-12
+      .pull-right
+        .btn-group
+          = form.submit "Vorlage speichern", class: "btn btn-success"

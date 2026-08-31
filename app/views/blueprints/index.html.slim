@@ -1,12 +1,12 @@
-- set_title t('navigation.snippets')
+- set_title t('navigation.blueprints')
 
 .panel.panel-default
   .panel-heading
     .row
       .col-xs-8
-        = link_to new_snippet_path, class: 'btn btn-sm btn-success', title: 'Hinweis anlegen'
+        = link_to new_blueprint_path, class: 'btn btn-sm btn-success', title: 'Vorlage anlegen'
           span.glyphicon.glyphicon-plus>
-          | Hinweis anlegen
+          | Vorlage anlegen
       .col-xs-4.text-right
         button.btn.btn-default.btn-sm.dropdown-toggle type="button" data-toggle="dropdown"
           | <span class="glyphicon glyphicon-search"></span> Suche <span class="caret"></span>
@@ -33,7 +33,7 @@
         tr
           th
           th
-            => Snippet.human_attribute_name(:created_at)
+            => Blueprint.human_attribute_name(:created_at)
             - if params.dig(:order, :column) == 'created_at'
               - if params.dig(:order, :value) == 'ASC'
                 = link_to url_for(@table_params.deep_merge(order: {column: :created_at, value: 'DESC'}))
@@ -47,38 +47,34 @@
               = link_to url_for(@table_params.deep_merge(order: {column: :created_at, value: 'ASC'}))
                 span.glyphicon.glyphicon-arrow-up.smaller.text-muted
           th
-            => Snippet.human_attribute_name(:priority)
-            - if params.dig(:order, :column) == 'priority'
+            => Blueprint.human_attribute_name(:name)
+            - if params.dig(:order, :column) == 'name'
               - if params.dig(:order, :value) == 'ASC'
-                = link_to url_for(@table_params.deep_merge(order: {column: :priority, value: 'DESC'}))
+                = link_to url_for(@table_params.deep_merge(order: {column: :name, value: 'DESC'}))
                   span.glyphicon.glyphicon-arrow-up.smaller
               - else
-                = link_to url_for(@table_params.deep_merge(order: {column: :priority, value: 'ASC'}))
+                = link_to url_for(@table_params.deep_merge(order: {column: :name, value: 'ASC'}))
                   span.glyphicon.glyphicon-arrow-down.smaller
               = link_to url_for(@table_params.merge(order: {}))
                 span.text-muted.glyphicon.glyphicon-remove.smaller
             - else
-              = link_to url_for(@table_params.deep_merge(order: {column: :priority, value: 'ASC'}))
+              = link_to url_for(@table_params.deep_merge(order: {column: :name, value: 'ASC'}))
                 span.glyphicon.glyphicon-arrow-up.smaller.text-muted
-          th= Snippet.human_attribute_name(:name)
-          th= Snippet.human_attribute_name(:content)
       tbody
-        - if @snippets.present?
-          - @snippets.each do |snippet|
+        - if @blueprints.present?
+          - @blueprints.each do |blueprint|
             tr
               td
                 label.btn-sm
-                  = check_box_tag "selected[]", snippet.id, false, class: 'select-all checkbox-addon'
+                  = check_box_tag "selected[]", blueprint.id, false, class: 'select-all checkbox-addon'
                 .btn-group.dropdown
-                  = render('snippet_actions', snippet: snippet)
-              td(nowrap)= link_to l(snippet.created_at, format: :short, default: '-'), snippet_path(snippet)
-              td= snippet.priority
-              td= link_to snippet.name, snippet_path(snippet)
-              td= link_to truncate(snippet.content), snippet_path(snippet)
+                  = render('blueprint_actions', blueprint: blueprint)
+              td(nowrap)= link_to l(blueprint.created_at, format: :short, default: '-'), blueprint_path(blueprint)
+              td= link_to blueprint.name, blueprint_path(blueprint)
 
         - else
           tr
-            td(colspan=7)= t('snippets.nothing_found')
+            td(colspan=7)= t('blueprints.nothing_found')
 
 .text-center
-  = paginate @snippets
+  = paginate @blueprints

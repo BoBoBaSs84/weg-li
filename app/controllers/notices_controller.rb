@@ -378,6 +378,7 @@ class NoticesController < ApplicationController
       :latitude,
       :longitude,
       :note,
+      # TODO: (PS) add all flags here, so they can be set via the edit form
       :vehicle_empty,
       :hazard_lights,
       :expired_tuv,

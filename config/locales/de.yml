@@ -13,7 +13,8 @@ de:
       notice: 'Meldung'
       district: 'Bezirk'
       reply: 'Antwort'
-      snippet: 'Vorlage'
+      snippet: 'Hinweis'
+      blueprint: 'Vorlage'
       data_set: 'Datensatz'
       authorization: 'Auth'
       export: 'Export'
@@ -135,6 +136,19 @@ de:
         impediment: 'Behinderung'
         charge: 'Tatbestand'
         charge_detail: 'Zusatzinformation'
+      blueprint:
+        created_at: 'Erstellt'
+        name: 'Name'
+        charge: 'Verstoß'
+        tbnr: 'Verstoß'
+        note: 'Hinweis'
+        flags:
+          one: 'Flags'
+          vehicle_empty: 'Das Fahrzeug war verlassen'
+          hazard_lights: 'Das Fahrzeug hatte die Warnblinkanlage aktiviert'
+          expired_tuv: 'Die TÜV-Plakette war abgelaufen'
+          expired_eco: 'Die Umwelt-Plakette fehlte oder war ungültig'
+          over_2_8_tons: 'Fahrzeug über 2,8 t zulässige Gesamtmasse'
       notice:
         created_at: 'Erstellt'
         sent_at: 'Versendet'
@@ -230,7 +244,8 @@ de:
     districts: 'Bezirke'
     notices: 'Meldungen'
     replies: 'Antworten'
-    snippets: 'Vorlagen'
+    snippets: 'Hinweise'
+    blueprints: 'Vorlagen'
     map: 'Kartenansicht'
     draft: 'Erfassen'
     dashboard: 'Übersicht'
@@ -352,6 +367,8 @@ de:
   replies:
     nothing_found: 'Keine Antworten gefunden'
   snippets:
+    nothing_found: 'Keine Hinweise gefunden'
+  blueprints:
     nothing_found: 'Keine Vorlagen gefunden'
   notices:
     new_notice: 'Neue Meldung'

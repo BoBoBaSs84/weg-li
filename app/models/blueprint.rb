@@ -8,4 +8,7 @@ class Blueprint < ApplicationRecord
   belongs_to :charge, -> { order(valid_from: :desc) }, optional: true, foreign_key: :tbnr, primary_key: :tbnr
 
   validates :name, presence: true
+
+  scope :ordered, -> { order(name: :desc, created_at: :asc) }
+  scope :search, ->(term) { where("name ILIKE :term OR info ILIKE :term", term: "%#{term}%") }
 end

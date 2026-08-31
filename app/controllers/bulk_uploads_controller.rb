@@ -52,6 +52,7 @@ class BulkUploadsController < ApplicationController
 
   def update
     bulk_upload = current_user.bulk_uploads.with_attached_photos.find(params[:id])
+    blueprint = Blueprint.find_by(id: params[:blueprint_id]) if params[:blueprint_id]
 
     if params[:button] == "upload" && bulk_upload_params.present?
       bulk_upload.assign_attributes(bulk_upload_params)
@@ -61,7 +62,7 @@ class BulkUploadsController < ApplicationController
     elsif params[:one_per_photo]
       photos = bulk_upload.photos
       photos.each do |photo|
-        notice = current_user.notices.build(bulk_upload:)
+        notice = current_user.notices.build(bulk_upload:, blueprint:)
         Notice.transaction do
           notice.save_incomplete!
           photo.update!(record: notice)
@@ -73,7 +74,7 @@ class BulkUploadsController < ApplicationController
       redirect_to edit_bulk_upload_path(bulk_upload), notice: "Neue Meldungen wurden erzeugt"
     elsif params[:bulk_upload]
       photos = bulk_upload.photos.find(bulk_upload_update_photo_ids)
-      notice = current_user.notices.build(bulk_upload:)
+      notice = current_user.notices.build(bulk_upload:, blueprint:)
       Notice.transaction do
         notice.save_incomplete!
         photos.compact.each { |photo| photo.update!(record: notice) }

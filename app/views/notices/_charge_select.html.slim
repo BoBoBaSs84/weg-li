@@ -8,11 +8,11 @@ ruby:
     },
     {
       text: "BKAT",
-      children: charges.map { |tbnr, description| {id: tbnr, selected: notice.tbnr == tbnr, text: "#{signify(description, link: false)} [#{tbnr}]"} }
+      children: charges.map { |tbnr, description| {id: tbnr, selected: selected_tbnr == tbnr, text: "#{signify(description, link: false)} [#{tbnr}]"} }
     },
   ]
 javascript:
-  $('select#notice_tbnr').select2({
+  $('select##{notice_tbnr}').select2({
     theme: 'bootstrap',
     tags: true,
     selectOnClose: true,
@@ -24,5 +24,5 @@ javascript:
     },
     data: #{raw(charge_options.to_json.html_safe)},
   }).on('select2:open', function (e) {
-    $('.select2-search__field').val($('#notice_tbnr').val());
+    $('.select2-search__field').val($('##{notice_tbnr}').val());
   });
