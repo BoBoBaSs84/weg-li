@@ -24,7 +24,7 @@
   = form_with model: @bulk_upload do |form|
     = render('components/photo_upload_modal', form: form)
 
-  = form_with model: @bulk_upload do |form|
+  = form_with model: @bulk_upload, id: :bulk_uploads_form do |form|
     = hidden_field_tag :order_column, @order_column
     = hidden_field_tag :order_direction, @order_direction
     .row
@@ -102,8 +102,7 @@
 
   .row
     .col-lg-3
-      = form_with model: @bulk_upload do |form|
-        = form.submit 'Pro Beweisfoto eine neue Meldung', name: 'one_per_photo', class: "btn btn-primary btn-block"
+      = button_tag 'Pro Beweisfoto eine neue Meldung', type: :submit, form: :bulk_uploads_form, name: :one_per_photo, class: "btn btn-primary btn-block"
     .col-lg-9
       .well.well-sm.callout-primary Sollte jedes Beweisfoto zu einem eigenen Vergehen gehören, dann hier pro Beweisfoto jeweils eine neue Meldung erzeugen.
 
